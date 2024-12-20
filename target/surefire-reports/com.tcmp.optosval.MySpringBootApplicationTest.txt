@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.tcmp.optosval.MySpringBootApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 13.989 s <<< FAILURE! - in com.tcmp.optosval.MySpringBootApplicationTest
+com.tcmp.optosval.MySpringBootApplicationTest.test  Time elapsed: 1.951 s  <<< ERROR!
+java.lang.IllegalArgumentException: Cannot advice route as route with id: hello does not exists
+	at com.tcmp.optosval.MySpringBootApplicationTest.test(MySpringBootApplicationTest.java:27)
+

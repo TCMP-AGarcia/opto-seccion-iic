@@ -1,0 +1,28 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/FXOptions  # Dirección de MongoDB, incluyendo el nombre de la base de datos
+
+camel:
+  springboot:
+    name: MyCamel
+    # duration-max-seconds: 60  # Descomentar si se quiere usar esta opción
+    # duration-max-messages: 100  # Descomentar si se quiere usar esta opción
+    # duration-max-idle-seconds: 15  # Descomentar si se quiere usar esta opción
+
+greeting: Hello World
+
+timer:
+  period: 2000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,camelroutes
+  endpoint:
+    health:
+      enabled: true
+    camelroutes:
+      enabled: true
+      read-only: true
