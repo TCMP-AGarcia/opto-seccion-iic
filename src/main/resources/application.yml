@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/FXOptions  # Dirección de MongoDB, incluyendo el nombre de la base de datos
+      uri: mongodb+srv://alangvazq:JQyTLSIGvA9ovG8R@cluster0.ihw7t.mongodb.net/FXOptions  # Dirección de MongoDB, incluyendo el nombre de la base de datos
 
 camel:
   springboot:

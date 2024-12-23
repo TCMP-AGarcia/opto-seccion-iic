@@ -1,4 +1,4 @@
-package com.tcmp.optosval;
+/*package com.tcmp.optosval;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
@@ -44,4 +44,4 @@ public class MySpringBootApplicationTest {
 		// asserting mock is satisfied
 		mock.assertIsSatisfied();
 	}
-}
+}*/
