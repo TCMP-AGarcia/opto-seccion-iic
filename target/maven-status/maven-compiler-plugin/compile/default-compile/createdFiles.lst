@@ -1,9 +1,0 @@
-com\tcmp\optosval\routes\MyRouterBuilder.class
-com\tcmp\optosval\services\MongoService.class
-com\tcmp\optosval\processors\CsvWriter.class
-com\tcmp\optosval\processors\CsvWriter$ValueGetter.class
-com\tcmp\optosval\processors\CsvWriter$ValueGetterDouble.class
-com\tcmp\optosval\MySpringBootApplication.class
-com\tcmp\optosval\processors\TradeRecordTransformer.class
-com\tcmp\optosval\controllers\OptosValController.class
-com\tcmp\optosval\model\TradeRecord.class
