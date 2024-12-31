@@ -1,13 +1,12 @@
 package com.tcmp.optosval.processors;
 
 import com.opencsv.CSVWriter;
-import com.tcmp.optosval.model.TradeRecord;
+import com.tcmp.optosval.model.OptoRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.springframework.stereotype.Component;
 
 import java.io.CharArrayWriter;
-import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -16,11 +15,11 @@ public class CsvWriter {
 
     public void writeToCsv(Exchange exchange) {
         // Obtener la lista de TradeRecord desde el Exchange
-        List<TradeRecord> tradeRecords = exchange.getIn().getBody(List.class);
+        List<OptoRecord> optoRecords = exchange.getIn().getBody(List.class);
 
-        log.info("Datos recibidos en writeToCsv: {}", tradeRecords.toString());
+        log.info("Datos recibidos en writeToCsv: {}", optoRecords.toString());
 
-        if (tradeRecords == null || tradeRecords.isEmpty()) {
+        if (optoRecords == null || optoRecords.isEmpty()) {
             // Si la lista está vacía o es nula, no hacemos nada
             log.warn("La lista de TradeRecord está vacía o es nula.");
             return;
@@ -32,31 +31,30 @@ public class CsvWriter {
 
             // Escribir los encabezados del CSV
             String[] header = {
-                    "BRANCH", "PRODUCTO", "DEAL", "FECHA_LIQ", "DESCR", "ID_CONTRAPARTE", "NOMBRE", "CCOSTOS",
-                    "MONEDA_NOCIONAL", "NOCIONAL", "TIPO_CAMBIO", "CONTRAMONEDA", "CONTRAMONTO", "MONEDA_LIQ",
-                    "MONTO_LIQUIDAR", "SUBYACENTE"
+                    "INST", "CONT", "FECHA", "NU_ID", "NU_PE_EJE", "IMPBA_CO", "FEINOP_CO", "FEVEOP_CO", "SUBY_CO", "CVE_TIT_C",
+                    "PRECIOEJER_C", "PRE_SUP", "PRE_INF", "INST_LEI", "UTI", "IDENTIFICADOR"
             };
             csvWriter.writeNext(header);
 
             // Escribir cada TradeRecord como una nueva línea en el archivo CSV
-            for (TradeRecord record : tradeRecords) {
+            for (OptoRecord record : optoRecords) {
                 String[] data = {
-                        safeGet(record::getBRANCH),
-                        safeGet(record::getPRODUCTO),
-                        safeGet(record::getDEAL),
-                        safeGet(record::getFECHA_LIQ),
-                        safeGet(record::getDESCR),
-                        safeGet(record::getID_CONTRAPARTE),
-                        safeGet(record::getNOMBRE),
-                        safeGet(record::getCCOSTOS),
-                        safeGet(record::getMONEDA_NOCIONAL),
-                        safeGetDouble(record::getNOCIONAL),
-                        safeGetDouble(record::getTIPO_CAMBIO),
-                        safeGet(record::getCONTRAMONEDA),
-                        safeGetDouble(record::getCONTRAMONTO),
-                        safeGet(record::getMONEDA_LIQ),
-                        safeGetDouble(record::getMONTO_LIQUIDAR),
-                        safeGet(record::getSUBYACENTE)
+                        safeGet(record::getINST),
+                        safeGet(record::getCONT),
+                        safeGet(record::getFECHA),
+                        safeGet(record::getNU_ID),
+                        safeGet(record::getNU_PE_EJE),
+                        safeGetDouble(record::getIMPBA_CO),
+                        safeGet(record::getFEINOP_CO),
+                        safeGet(record::getFEVEOP_CO),
+                        safeGet(record::getSUBY_CO),
+                        safeGet(record::getCVE_TIT_C),
+                        safeGetDouble(record::getPRECIOEJER_C),
+                        safeGetDouble(record::getPRE_SUP),
+                        safeGetDouble(record::getPRE_INF),
+                        safeGet(record::getINST_LEI),
+                        safeGet(record::getUTI),
+                        safeGet(record::getIDENTIFICADOR)
                 };
                 csvWriter.writeNext(data);
             }
