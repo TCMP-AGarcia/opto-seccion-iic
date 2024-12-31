@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/optosval")
 @CrossOrigin(origins = "http://localhost:3000")
-public class OptosValController {
+public class OptoController {
 
     @Autowired
     private ProducerTemplate producerTemplate;
@@ -30,7 +30,7 @@ public class OptosValController {
         // Construir los encabezados de la respuesta HTTP para la descarga
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "text/csv");
-        headers.add("Content-Disposition", "attachment; filename=EstadosCuenta.csv");
+        headers.add("Content-Disposition", "attachment; filename=OptoSeccionIIC.csv");
 
         return new ResponseEntity<>(csvContent, headers, HttpStatus.OK);
     }
