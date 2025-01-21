@@ -1,4 +1,4 @@
-package com.tcmp.optosval.controllers;
+package com.tcmp.optoseccioniic.controllers;
 
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.Exchange;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/optosval")
+@RequestMapping("/optoseccioniic")
 @CrossOrigin(origins = "http://localhost:3000")
-public class OptoController {
+public class OptoSeccionIICController {
 
     @Autowired
     private ProducerTemplate producerTemplate;

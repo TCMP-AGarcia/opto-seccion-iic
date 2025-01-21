@@ -1,4 +1,4 @@
-/*package com.tcmp.optosval;
+/*package com.tcmp.optoseccioniic;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;

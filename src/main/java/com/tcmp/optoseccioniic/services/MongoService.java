@@ -1,4 +1,4 @@
-package com.tcmp.optosval.services;
+package com.tcmp.optoseccioniic.services;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -24,7 +24,7 @@ public class MongoService {
     public void printRealtimeData(Exchange exchange) {
         // Get the MongoDB database
         MongoDatabase database = mongoTemplate.getDb();
-        MongoCollection<Document> collection = database.getCollection("Realtime");
+        MongoCollection<Document> collection = database.getCollection("RealtimeV2");
         MongoCollection<Document> collectionCF = database.getCollection("Cashflow");
 
         // Create the projection to fetch only the required fields

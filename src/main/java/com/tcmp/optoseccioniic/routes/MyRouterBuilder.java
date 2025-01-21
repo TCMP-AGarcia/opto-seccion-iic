@@ -1,8 +1,8 @@
-package com.tcmp.optosval.routes;
+package com.tcmp.optoseccioniic.routes;
 
-import com.tcmp.optosval.processors.CsvWriter;
-import com.tcmp.optosval.processors.OptoRecordTransformer;
-import com.tcmp.optosval.services.MongoService;
+import com.tcmp.optoseccioniic.processors.CsvWriter;
+import com.tcmp.optoseccioniic.processors.OptoSeccionIICRecordTransformer;
+import com.tcmp.optoseccioniic.services.MongoService;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class MyRouterBuilder extends RouteBuilder {
     private MongoService mongoService;
 
     @Autowired
-    private OptoRecordTransformer optoRecordTransformer;
+    private OptoSeccionIICRecordTransformer optoSeccionIICRecordTransformer;
 
     @Autowired
     private CsvWriter csvWriter;
@@ -28,7 +28,7 @@ public class MyRouterBuilder extends RouteBuilder {
                 .log("Iniciando procesamiento de datos desde MongoService...")
                 .bean(mongoService, "printRealtimeData")
                 .log("Datos obtenidos de MongoDB: ${body}")
-                .bean(optoRecordTransformer)
+                .bean(optoSeccionIICRecordTransformer)
                 .log("Datos procesados con éxito desde TradeRecordTransformer.")
                 .bean(csvWriter, "writeToCsv")
                 .log("Datos exportados con éxito desde CsvWriter.")

@@ -1,6 +1,6 @@
-package com.tcmp.optosval.processors;
+package com.tcmp.optoseccioniic.processors;
 
-import com.tcmp.optosval.model.OptoRecord;
+import com.tcmp.optoseccioniic.model.OptoSeccionIICRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class OptoRecordTransformer implements Processor {
+public class OptoSeccionIICRecordTransformer implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -33,7 +33,7 @@ public class OptoRecordTransformer implements Processor {
         }
 
         // Crear una lista para almacenar los objetos TradeRecord
-        List<OptoRecord> optoRecords = new ArrayList<>();
+        List<OptoSeccionIICRecord> optoSeccionIICRecords = new ArrayList<>();
 
         // Procesar cada documento
         int index=0;
@@ -44,33 +44,33 @@ public class OptoRecordTransformer implements Processor {
                 log.info("Procesando documento: {}", doc.toJson());
 
                 // Crear un nuevo TradeRecord y mapear los datos
-                OptoRecord optoRecord = new OptoRecord();
-                optoRecord.setINST("040044"); // Fijo en 040044
-                optoRecord.setCONT("L3I9ZG2KFGXZ61BMYR72"); // Fijo en L3I9ZG2KFGXZ61BMYR72
-                optoRecord.setFECHA(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
-                optoRecord.setNU_ID(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "tradeId", "id")));
-                optoRecord.setNU_PE_EJE("1"); //Fijo en 1
-                optoRecord.setIMPBA_CO(getEmbeddedDouble(cashFlowDoc, List.of("JournalEntryMessage","CashflowMessage", "cashflowDetails", "0", "cashflowAmount")));
-                optoRecord.setFEINOP_CO(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "startDate")));
-                optoRecord.setFEVEOP_CO(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "endDate")));
-                optoRecord.setSUBY_CO("840");
-                optoRecord.setCVE_TIT_C(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "underlyingInstrumentName")));
-                optoRecord.setPRECIOEJER_C(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "strikeRate")));
-                optoRecord.setPRE_SUP(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "barrierFeature", "barrierUpRate")));
-                optoRecord.setPRE_INF(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "barrierFeature", "barrierDownRate")));
-                optoRecord.setINST_LEI(getEmbeddedString(doc, List.of("TradeMessage", "trade", "parties", "counterparty", "partyLei")));
-                optoRecord.setUTI(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "uniqueTransactionId")));
-                optoRecord.setIDENTIFICADOR("");
+                OptoSeccionIICRecord optoSeccionIICRecord = new OptoSeccionIICRecord();
+                optoSeccionIICRecord.setINST("040044"); // Fijo en 040044
+                optoSeccionIICRecord.setCONT("L3I9ZG2KFGXZ61BMYR72"); // Fijo en L3I9ZG2KFGXZ61BMYR72
+                optoSeccionIICRecord.setFECHA(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
+                optoSeccionIICRecord.setNU_ID(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "tradeId", "id")));
+                optoSeccionIICRecord.setNU_PE_EJE("1"); //Fijo en 1
+                optoSeccionIICRecord.setIMPBA_CO(getEmbeddedDouble(cashFlowDoc, List.of("JournalEntryMessage","CashflowMessage", "cashflowDetails", "0", "cashflowAmount")));
+                optoSeccionIICRecord.setFEINOP_CO(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "startDate")));
+                optoSeccionIICRecord.setFEVEOP_CO(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "endDate")));
+                optoSeccionIICRecord.setSUBY_CO("840");
+                optoSeccionIICRecord.setCVE_TIT_C(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "underlyingInstrumentName")));
+                optoSeccionIICRecord.setPRECIOEJER_C(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "strikeRate")));
+                optoSeccionIICRecord.setPRE_SUP(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "barrierFeature", "barrierUpRate")));
+                optoSeccionIICRecord.setPRE_INF(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "barrierFeature", "barrierDownRate")));
+                optoSeccionIICRecord.setINST_LEI(getEmbeddedString(doc, List.of("TradeMessage", "trade", "parties", "counterparty", "partyLei")));
+                optoSeccionIICRecord.setUTI(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "uniqueTransactionId")));
+                optoSeccionIICRecord.setIDENTIFICADOR("");
 
                 // Agregar el TradeRecord a la lista
-                optoRecords.add(optoRecord);
+                optoSeccionIICRecords.add(optoSeccionIICRecord);
             } catch (Exception e) {
                 log.error("Error procesando el documento: {}", doc.toJson(), e);
             }
         }
 
         // Establecer la lista de TradeRecord como el cuerpo del mensaje
-        exchange.getIn().setBody(optoRecords);
+        exchange.getIn().setBody(optoSeccionIICRecords);
     }
 
     // Métodos auxiliares

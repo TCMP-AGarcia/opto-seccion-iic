@@ -1,7 +1,7 @@
-package com.tcmp.optosval.processors;
+package com.tcmp.optoseccioniic.processors;
 
 import com.opencsv.CSVWriter;
-import com.tcmp.optosval.model.OptoRecord;
+import com.tcmp.optoseccioniic.model.OptoSeccionIICRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.springframework.stereotype.Component;
@@ -15,11 +15,11 @@ public class CsvWriter {
 
     public void writeToCsv(Exchange exchange) {
         // Obtener la lista de TradeRecord desde el Exchange
-        List<OptoRecord> optoRecords = exchange.getIn().getBody(List.class);
+        List<OptoSeccionIICRecord> optoSeccionIICRecords = exchange.getIn().getBody(List.class);
 
-        log.info("Datos recibidos en writeToCsv: {}", optoRecords.toString());
+        log.info("Datos recibidos en writeToCsv: {}", optoSeccionIICRecords.toString());
 
-        if (optoRecords == null || optoRecords.isEmpty()) {
+        if (optoSeccionIICRecords == null || optoSeccionIICRecords.isEmpty()) {
             // Si la lista está vacía o es nula, no hacemos nada
             log.warn("La lista de TradeRecord está vacía o es nula.");
             return;
@@ -37,7 +37,7 @@ public class CsvWriter {
             csvWriter.writeNext(header);
 
             // Escribir cada TradeRecord como una nueva línea en el archivo CSV
-            for (OptoRecord record : optoRecords) {
+            for (OptoSeccionIICRecord record : optoSeccionIICRecords) {
                 String[] data = {
                         safeGet(record::getINST),
                         safeGet(record::getCONT),

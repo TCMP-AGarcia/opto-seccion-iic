@@ -1,6 +1,6 @@
-package com.tcmp.optosval.model;
+package com.tcmp.optoseccioniic.model;
 
-public class OptoRecord {
+public class OptoSeccionIICRecord {
     private String INST;
     private String CONT;
     private String FECHA;
@@ -19,7 +19,7 @@ public class OptoRecord {
     private String IDENTIFICADOR;
 
     // Constructor vacío
-    public OptoRecord() {
+    public OptoSeccionIICRecord() {
     }
 
     // Getters y setters
