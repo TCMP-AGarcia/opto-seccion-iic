@@ -1,153 +1,153 @@
 package com.tcmp.optoseccioniic.model;
 
 public class OptoSeccionIICRecord {
-    private String INST;
-    private String CONT;
-    private String FECHA;
-    private String NU_ID;
-    private String NU_PE_EJE;
-    private Double IMPBA_CO;
-    private String FEINOP_CO;
-    private String FEVEOP_CO;
-    private String SUBY_CO;
-    private String CVE_TIT_C;
-    private Double PRECIOEJER_C;
-    private Double PRE_SUP;
-    private Double PRE_INF;
-    private String INST_LEI;
-    private String UTI;
-    private String IDENTIFICADOR;
+    private String inst;
+    private String cont;
+    private String fecha;
+    private String nuID;
+    private String nuPeEje;
+    private Double impbaCo;
+    private String feinopCo;
+    private String feveopCo;
+    private String subyCo;
+    private String cveTitC;
+    private Double precioEjerC;
+    private Double preSup;
+    private Double preInf;
+    private String instLei;
+    private String uti;
+    private String identificador;
 
     // Constructor vacío
     public OptoSeccionIICRecord() {
     }
 
     // Getters y setters
-    public String getCONT() {
-        return CONT;
+    public String getCont() {
+        return cont;
     }
 
-    public void setCONT(String CONT) {
-        this.CONT = CONT;
+    public void setCont(String cont) {
+        this.cont = cont;
     }
 
-    public String getINST() {
-        return INST;
+    public String getInst() {
+        return inst;
     }
 
-    public void setINST(String INST) {
-        this.INST = INST;
+    public void setInst(String inst) {
+        this.inst = inst;
     }
 
-    public String getFECHA() {
-        return FECHA;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setFECHA(String FECHA) {
-        this.FECHA = FECHA;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public String getNU_ID() {
-        return NU_ID;
+    public String getNuID() {
+        return nuID;
     }
 
-    public void setNU_ID(String NU_ID) {
-        this.NU_ID = NU_ID;
+    public void setNuID(String nuID) {
+        this.nuID = nuID;
     }
 
-    public String getNU_PE_EJE() {
-        return NU_PE_EJE;
+    public String getNuPeEje() {
+        return nuPeEje;
     }
 
-    public void setNU_PE_EJE(String NU_PE_EJE) {
-        this.NU_PE_EJE = NU_PE_EJE;
+    public void setNuPeEje(String nuPeEje) {
+        this.nuPeEje = nuPeEje;
     }
 
-    public Double getIMPBA_CO() {
-        return IMPBA_CO;
+    public Double getImpbaCo() {
+        return impbaCo;
     }
 
-    public void setIMPBA_CO(Double IMPBA_CO) {
-        this.IMPBA_CO = IMPBA_CO;
+    public void setImpbaCo(Double impbaCo) {
+        this.impbaCo = impbaCo;
     }
 
-    public String getFEINOP_CO() {
-        return FEINOP_CO;
+    public String getFeinopCo() {
+        return feinopCo;
     }
 
-    public void setFEINOP_CO(String FEINOP_CO) {
-        this.FEINOP_CO = FEINOP_CO;
+    public void setFeinopCo(String feinopCo) {
+        this.feinopCo = feinopCo;
     }
 
-    public String getFEVEOP_CO() {
-        return FEVEOP_CO;
+    public String getFeveopCo() {
+        return feveopCo;
     }
 
-    public void setFEVEOP_CO(String FEVEOP_CO) {
-        this.FEVEOP_CO = FEVEOP_CO;
+    public void setFeveopCo(String feveopCo) {
+        this.feveopCo = feveopCo;
     }
 
-    public String getSUBY_CO() {
-        return SUBY_CO;
+    public String getSubyCo() {
+        return subyCo;
     }
 
-    public void setSUBY_CO(String SUBY_CO) {
-        this.SUBY_CO = SUBY_CO;
+    public void setSubyCo(String subyCo) {
+        this.subyCo = subyCo;
     }
 
-    public String getCVE_TIT_C() {
-        return CVE_TIT_C;
+    public String getCveTitC() {
+        return cveTitC;
     }
 
-    public void setCVE_TIT_C(String CVE_TIT_C) {
-        this.CVE_TIT_C = CVE_TIT_C;
+    public void setCveTitC(String cveTitC) {
+        this.cveTitC = cveTitC;
     }
 
-    public Double getPRECIOEJER_C() {
-        return PRECIOEJER_C;
+    public Double getPrecioEjerC() {
+        return precioEjerC;
     }
 
-    public void setPRECIOEJER_C(Double PRECIOEJER_C) {
-        this.PRECIOEJER_C = PRECIOEJER_C;
+    public void setPrecioEjerC(Double precioEjerC) {
+        this.precioEjerC = precioEjerC;
     }
 
-    public Double getPRE_SUP() {
-        return PRE_SUP;
+    public Double getPreSup() {
+        return preSup;
     }
 
-    public void setPRE_SUP(Double PRE_SUP) {
-        this.PRE_SUP = PRE_SUP;
+    public void setPreSup(Double preSup) {
+        this.preSup = preSup;
     }
 
-    public Double getPRE_INF() {
-        return PRE_INF;
+    public Double getPreInf() {
+        return preInf;
     }
 
-    public void setPRE_INF(Double PRE_INF) {
-        this.PRE_INF = PRE_INF;
+    public void setPreInf(Double preInf) {
+        this.preInf = preInf;
     }
 
-    public String getINST_LEI() {
-        return INST_LEI;
+    public String getInstLei() {
+        return instLei;
     }
 
-    public void setINST_LEI(String INST_LEI) {
-        this.INST_LEI = INST_LEI;
+    public void setInstLei(String instLei) {
+        this.instLei = instLei;
     }
 
-    public String getUTI() {
-        return UTI;
+    public String getUti() {
+        return uti;
     }
 
-    public void setUTI(String UTI) {
-        this.UTI = UTI;
+    public void setUti(String uti) {
+        this.uti = uti;
     }
 
-    public String getIDENTIFICADOR() {
-        return IDENTIFICADOR;
+    public String getIdentificador() {
+        return identificador;
     }
 
-    public void setIDENTIFICADOR(String IDENTIFICADOR) {
-        this.IDENTIFICADOR = IDENTIFICADOR;
+    public void setIdentificador(String identificador) {
+        this.identificador = identificador;
     }
 }

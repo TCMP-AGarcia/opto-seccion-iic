@@ -29,39 +29,29 @@ public class MongoService {
 
         // Create the projection to fetch only the required fields
         Document projection = new Document(
+                // INST FIJO 040044
+                // CONT FIJO L3I9ZG2KFGXZ61BMYR72 // TODO ANEXO B
+                "TradeMessage.trade.tradeHeader.tradeDate", 1) // FECHA
+                .append("TradeMessage.trade.tradeHeader.tradeIdentifiers.tradeId.id", 1) // NU_ID
+                .append("TradeMessage.trade.product.tradeDate",1) // FEINOP_CO // TODO VERIFICAR RUTA
+                .append("TradeMessage.trade.product.exerciseStyle.expiryDate",1) // FEVEOP_CO
+                .append("TradeMessage.trade.product.underlyingInstrumentName", 1) // CVE_TIT_C // TODO ANEXO AF
+                .append("TradeMessage.trade.product.strikeRate", 1) // PRECIOEJER_C
+                .append("TradeMessage.trade.product.barrierFeature.barrierUpRate", 1) // PRE_SUP
+                .append("TradeMessage.trade.product.barrierFeature.barrierDownRate", 1) // PRE_INF
+                .append("TradeMessage.trade.parties.counterparty.partyLei", 1) // INST_LEI
+                .append("TradeMessage.trade.tradeHeader.tradeIdentifiers.uniqueTransactionId", 1) // UTI
 
-                // TODO CONT ANEXO B
-
-                // NU_ID RUTA trade.id
-                "TradeMessage.trade.tradeHeader.tradeIdentifiers.tradeId.id", 1)
-                // FECHA
-                .append("TradeMessage.trade.tradeHeader.tradeDate", 1)
+                // Campos GBM Faltantes
                 // TODO NU_PE_EJE Pending to create
-
-                // FEINOP_CO
-                .append("TradeMessage.trade.product_FXOption.startDate",1)
-                //FEVEOP_CO
-                .append("TradeMessage.trade.product_FXOption.endDate",1)
                 // TODO SUBY_CO CATALOGO ANEXO F
-
-                // TODO CVE_TIT_C ANEXO AF
-                .append("TradeMessage.trade.product_FXOption.underlyingInstrumentName", 1)
-                // PRECIOEJER_C
-                .append("TradeMessage.trade.product_FXOption.strikeRate", 1)
-                // PRE_SUP
-                .append("TradeMessage.trade.product_FXOption.barrierFeature.barrierUpRate", 1)
-                // PRE_INF
-                .append("TradeMessage.trade.product_FXOption.barrierFeature.barrierDownRate", 1)
-                // INST_LEI
-                .append("TradeMessage.trade.parties.counterparty.partyLei", 1)
-                // UTI
-                .append("TradeMessage.trade.tradeHeader.tradeIdentifiers.uniqueTransactionId", 1)
                 // TODO IDENTIFICADOR VanillaOption de SECCIONII se deja vacío
-
+                
         .append("_id", 0);  // Exclude the _id field
 
-        Document projectionCF = new Document("_id", 1)
-                .append("JournalEntryMessage.CashflowMessage.cashflowDetails.0.cashflowAmount", 1);
+        Document projectionCF = new Document(
+                "CashflowMessage.cashflowDetails.cashflowAmount", 1) // IMPBA_CO
+                .append("_id", 0);  // Exclude the _id field
 
         // Query the collection and apply the projection
         List<Document> resultsRT = collection.find(new Document()).projection(projection).into(new ArrayList<>());

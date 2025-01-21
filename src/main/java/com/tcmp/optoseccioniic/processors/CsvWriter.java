@@ -39,22 +39,22 @@ public class CsvWriter {
             // Escribir cada TradeRecord como una nueva línea en el archivo CSV
             for (OptoSeccionIICRecord record : optoSeccionIICRecords) {
                 String[] data = {
-                        safeGet(record::getINST),
-                        safeGet(record::getCONT),
-                        safeGet(record::getFECHA),
-                        safeGet(record::getNU_ID),
-                        safeGet(record::getNU_PE_EJE),
-                        safeGetDouble(record::getIMPBA_CO),
-                        safeGet(record::getFEINOP_CO),
-                        safeGet(record::getFEVEOP_CO),
-                        safeGet(record::getSUBY_CO),
-                        safeGet(record::getCVE_TIT_C),
-                        safeGetDouble(record::getPRECIOEJER_C),
-                        safeGetDouble(record::getPRE_SUP),
-                        safeGetDouble(record::getPRE_INF),
-                        safeGet(record::getINST_LEI),
-                        safeGet(record::getUTI),
-                        safeGet(record::getIDENTIFICADOR)
+                        safeGet(record::getInst),
+                        safeGet(record::getCont),
+                        safeGet(record::getFecha),
+                        safeGet(record::getNuID),
+                        safeGet(record::getNuPeEje),
+                        safeGetDouble(record::getImpbaCo),
+                        safeGet(record::getFeinopCo),
+                        safeGet(record::getFeveopCo),
+                        safeGet(record::getSubyCo),
+                        safeGet(record::getCveTitC),
+                        safeGetDouble(record::getPrecioEjerC),
+                        safeGetDouble(record::getPreSup),
+                        safeGetDouble(record::getPreInf),
+                        safeGet(record::getInstLei),
+                        safeGet(record::getUti),
+                        safeGet(record::getIdentificador)
                 };
                 csvWriter.writeNext(data);
             }

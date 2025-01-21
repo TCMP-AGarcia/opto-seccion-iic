@@ -21,7 +21,7 @@ public class OptoSeccionIICRecordTransformer implements Processor {
         HashMap<String,List<Document>> data =  new HashMap<>();
         data = exchange.getIn().getBody(data.getClass());
         List<Document> tradeDocs = data.get("RealTime");
-        List<Document> CashFlowDocs =  data.get("CashFlow");
+        List<Document> CashflowDocs =  data.get("CashFlow");
 
         log.info("Datos recibidos: {}", data);
 
@@ -37,35 +37,40 @@ public class OptoSeccionIICRecordTransformer implements Processor {
 
         // Procesar cada documento
         int index=0;
-        for (Document doc : tradeDocs) {
+        for (Document tradedoc : tradeDocs) {
             try {
-                Document cashFlowDoc = CashFlowDocs.get(index);
+                Document cashflowDoc = CashflowDocs.get(index);
                 // Log para depuración
-                log.info("Procesando documento: {}", doc.toJson());
+                log.info("Procesando documento tradedoc: {}", tradedoc.toJson());
+                log.info("Procesando documento cashFlowDoc: {}", cashflowDoc.toJson());
 
                 // Crear un nuevo TradeRecord y mapear los datos
                 OptoSeccionIICRecord optoSeccionIICRecord = new OptoSeccionIICRecord();
-                optoSeccionIICRecord.setINST("040044"); // Fijo en 040044
-                optoSeccionIICRecord.setCONT("L3I9ZG2KFGXZ61BMYR72"); // Fijo en L3I9ZG2KFGXZ61BMYR72
-                optoSeccionIICRecord.setFECHA(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
-                optoSeccionIICRecord.setNU_ID(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "tradeId", "id")));
-                optoSeccionIICRecord.setNU_PE_EJE("1"); //Fijo en 1
-                optoSeccionIICRecord.setIMPBA_CO(getEmbeddedDouble(cashFlowDoc, List.of("JournalEntryMessage","CashflowMessage", "cashflowDetails", "0", "cashflowAmount")));
-                optoSeccionIICRecord.setFEINOP_CO(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "startDate")));
-                optoSeccionIICRecord.setFEVEOP_CO(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "endDate")));
-                optoSeccionIICRecord.setSUBY_CO("840");
-                optoSeccionIICRecord.setCVE_TIT_C(getEmbeddedString(doc, List.of("TradeMessage", "trade", "product_FXOption", "underlyingInstrumentName")));
-                optoSeccionIICRecord.setPRECIOEJER_C(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "strikeRate")));
-                optoSeccionIICRecord.setPRE_SUP(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "barrierFeature", "barrierUpRate")));
-                optoSeccionIICRecord.setPRE_INF(getEmbeddedDouble(doc, List.of("TradeMessage", "trade", "product_FXOption", "barrierFeature", "barrierDownRate")));
-                optoSeccionIICRecord.setINST_LEI(getEmbeddedString(doc, List.of("TradeMessage", "trade", "parties", "counterparty", "partyLei")));
-                optoSeccionIICRecord.setUTI(getEmbeddedString(doc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "uniqueTransactionId")));
-                optoSeccionIICRecord.setIDENTIFICADOR("");
+                optoSeccionIICRecord.setInst("040044"); // Fijo en 040044 // TODO ANEXO B
+                optoSeccionIICRecord.setCont("L3I9ZG2KFGXZ61BMYR72"); // Fijo en L3I9ZG2KFGXZ61BMYR72
+                optoSeccionIICRecord.setFecha(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
+                optoSeccionIICRecord.setNuID(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "tradeId", "id")));
+                optoSeccionIICRecord.setImpbaCo(getEmbeddedDouble(cashflowDoc, List.of("CashflowMessage", "cashflowDetails", "cashflowAmount")));
+                optoSeccionIICRecord.setFeinopCo(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "tradeDate")));
+                optoSeccionIICRecord.setFeveopCo(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "exerciseStyle", "expiryDate")));
+                optoSeccionIICRecord.setSubyCo("840");
+                optoSeccionIICRecord.setCveTitC(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "underlyingInstrumentName"))); // TODO ANEXO AF
+                optoSeccionIICRecord.setPrecioEjerC(getEmbeddedDouble(tradedoc, List.of("TradeMessage", "trade", "product", "strikeRate")));
+                optoSeccionIICRecord.setPreSup(getEmbeddedDouble(tradedoc, List.of("TradeMessage", "trade", "product", "barrierFeature", "barrierUpRate")));
+                optoSeccionIICRecord.setPreInf(getEmbeddedDouble(tradedoc, List.of("TradeMessage", "trade", "product", "barrierFeature", "barrierDownRate")));
+                optoSeccionIICRecord.setInstLei(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "parties", "counterparty", "partyLei")));
+                optoSeccionIICRecord.setUti(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "uniqueTransactionId")));
+                optoSeccionIICRecord.setIdentificador("");
+
+                // Campos GBM Faltantes
+                optoSeccionIICRecord.setNuPeEje("1"); //Fijo en 1 // TODO NU_PE_EJE Pending to create
+                // TODO SUBY_CO CATALOGO ANEXO F
+                // TODO IDENTIFICADOR VanillaOption de SECCIONII se deja vacío
 
                 // Agregar el TradeRecord a la lista
                 optoSeccionIICRecords.add(optoSeccionIICRecord);
             } catch (Exception e) {
-                log.error("Error procesando el documento: {}", doc.toJson(), e);
+                log.error("Error procesando el documento: {}", tradedoc.toJson(), e);
             }
         }
 
@@ -80,8 +85,11 @@ public class OptoSeccionIICRecordTransformer implements Processor {
             for (int i = 1; i < path.size() && value != null; i++) {
                 if (value instanceof Document) {
                     value = ((Document) value).get(path.get(i)); // Get nested fields
+                } else if (value instanceof List) {
+                    value = ((List<?>) value).get(0); // Get the first element if it's a list
+                    value = ((Document) value).get(path.get(i)); // Continue with the next part of the path
                 } else {
-                    log.warn("Path '{}' is not a Document, value: {}", path, value);
+                    log.warn("Path '{}' is not a Document or List, value: {}", path, value);
                     break;
                 }
             }
@@ -104,8 +112,11 @@ public class OptoSeccionIICRecordTransformer implements Processor {
             for (int i = 1; i < path.size() && value != null; i++) {
                 if (value instanceof Document) {
                     value = ((Document) value).get(path.get(i)); // Get nested fields
+                } else if (value instanceof List) {
+                    value = ((List<?>) value).get(0); // Get the first element if it's a list
+                    value = ((Document) value).get(path.get(i)); // Continue with the next part of the path
                 } else {
-                    log.warn("Path '{}' is not a Document, value: {}", path, value);
+                    log.warn("Path '{}' is not a Document or List, value: {}", path, value);
                     break;
                 }
             }
@@ -124,4 +135,40 @@ public class OptoSeccionIICRecordTransformer implements Processor {
             return 0.0; // Return default value if any error occurs
         }
     }
+
+    private Integer getEmbeddedInteger(Document doc, List<String> path) {
+        try {
+            Object value = doc.get(path.get(0)); // Obtener la primera parte del path
+            for (int i = 1; i < path.size() && value != null; i++) {
+                if (value instanceof Document) {
+                    value = ((Document) value).get(path.get(i)); // Obtener campos anidados
+                } else if (value instanceof List) {
+                    value = ((List<?>) value).get(0); // Get the first element if it's a list
+                    value = ((Document) value).get(path.get(i)); // Continue with the next part of the path
+                } else {
+                    log.warn("Path '{}' is not a Document or List, value: {}", path, value);
+                    break;
+                }
+            }
+            if (value == null) {
+                return 0; // Valor por defecto si no se encuentra valor
+            }
+            if (value instanceof Integer) {
+                return (Integer) value;
+            }
+            if (value instanceof String) {
+                try {
+                    return Integer.parseInt((String) value); // Convertir desde String
+                } catch (NumberFormatException e) {
+                    log.warn("Cannot parse String '{}' as an integer", value);
+                    return 0;
+                }
+            }
+            return 0; // Valor por defecto si no es un entero o cadena convertible
+        } catch (Exception e) {
+            log.warn("Error extracting integer from path {}: {}", path, e.getMessage());
+            return 0; // Valor por defecto si ocurre un error
+        }
+    }
+
 }
