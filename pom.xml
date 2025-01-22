@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.tcmp</groupId>
   <artifactId>app</artifactId>
-  <version>210125V1</version>
+  <version>220125V1</version>
   <name>A Camel Spring Boot Route</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

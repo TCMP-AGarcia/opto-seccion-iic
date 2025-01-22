@@ -33,7 +33,7 @@ public class MongoService {
                 // CONT FIJO L3I9ZG2KFGXZ61BMYR72 // TODO ANEXO B
                 "TradeMessage.trade.tradeHeader.tradeDate", 1) // FECHA
                 .append("TradeMessage.trade.tradeHeader.tradeIdentifiers.tradeId.id", 1) // NU_ID
-                .append("TradeMessage.trade.product.tradeDate",1) // FEINOP_CO // TODO VERIFICAR RUTA
+                .append("TradeMessage.trade.tradeHeader.tradeDate",1) // FEINOP_CO
                 .append("TradeMessage.trade.product.exerciseStyle.expiryDate",1) // FEVEOP_CO
                 .append("TradeMessage.trade.product.underlyingInstrumentName", 1) // CVE_TIT_C // TODO ANEXO AF
                 .append("TradeMessage.trade.product.strikeRate", 1) // PRECIOEJER_C
