@@ -30,7 +30,7 @@ public class OptoSeccionIICController {
         // Construir los encabezados de la respuesta HTTP para la descarga
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "text/csv");
-        headers.add("Content-Disposition", "attachment; filename=OptoSeccionIIC.csv");
+        headers.add("Content-Disposition", "attachment; filename=optoseccioniic.csv");
 
         return new ResponseEntity<>(csvContent, headers, HttpStatus.OK);
     }

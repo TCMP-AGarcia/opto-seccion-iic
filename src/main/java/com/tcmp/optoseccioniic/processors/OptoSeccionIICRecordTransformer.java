@@ -41,31 +41,35 @@ public class OptoSeccionIICRecordTransformer implements Processor {
             try {
                 Document cashflowDoc = CashflowDocs.get(index);
                 // Log para depuración
-                log.info("Procesando documento tradedoc: {}", tradedoc.toJson());
-                log.info("Procesando documento cashFlowDoc: {}", cashflowDoc.toJson());
+                log.info("Procesando documento Realtime: {}", tradedoc.toJson());
+                log.info("Procesando documento Cashflow: {}", cashflowDoc.toJson());
 
                 // Crear un nuevo TradeRecord y mapear los datos
                 OptoSeccionIICRecord optoSeccionIICRecord = new OptoSeccionIICRecord();
-                optoSeccionIICRecord.setInst("040044"); // Fijo en 040044 // TODO ANEXO B
-                optoSeccionIICRecord.setCont("L3I9ZG2KFGXZ61BMYR72"); // Fijo en L3I9ZG2KFGXZ61BMYR72
+
+                //FIJO
+                optoSeccionIICRecord.setInst("040044");
+                optoSeccionIICRecord.setCont("L3I9ZG2KFGXZ61BMYR72"); // Fijo en L3I9ZG2KFGXZ61BMYR72 // ANEXO B
+
+                //Ruta Service
                 optoSeccionIICRecord.setFecha(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
                 optoSeccionIICRecord.setNuID(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "tradeId", "id")));
                 optoSeccionIICRecord.setImpbaCo(getEmbeddedDouble(cashflowDoc, List.of("CashflowMessage", "cashflowDetails", "cashflowAmount")));
                 optoSeccionIICRecord.setFeinopCo(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
                 optoSeccionIICRecord.setFeveopCo(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "exerciseStyle", "expiryDate")));
-                optoSeccionIICRecord.setSubyCo("840");
                 optoSeccionIICRecord.setCveTitC(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "underlyingInstrumentName"))); // TODO ANEXO AF
                 optoSeccionIICRecord.setPrecioEjerC(getEmbeddedDouble(tradedoc, List.of("TradeMessage", "trade", "product", "strikeRate")));
                 optoSeccionIICRecord.setPreSup(getEmbeddedDouble(tradedoc, List.of("TradeMessage", "trade", "product", "barrierFeature", "barrierUpRate")));
                 optoSeccionIICRecord.setPreInf(getEmbeddedDouble(tradedoc, List.of("TradeMessage", "trade", "product", "barrierFeature", "barrierDownRate")));
                 optoSeccionIICRecord.setInstLei(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "parties", "counterparty", "partyLei")));
                 optoSeccionIICRecord.setUti(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "uniqueTransactionId")));
-                optoSeccionIICRecord.setIdentificador("");
 
-                // Campos GBM Faltantes
-                optoSeccionIICRecord.setNuPeEje("1"); //Fijo en 1 // TODO NU_PE_EJE Pending to create
-                // TODO SUBY_CO CATALOGO ANEXO F
-                // TODO IDENTIFICADOR VanillaOption de SECCIONII se deja vacío
+                // TODO Campos GBM Faltantes
+                optoSeccionIICRecord.setNuPeEje("PENDIENTE");
+                optoSeccionIICRecord.setSubyCo(""); // CATALOGO ANEXO F
+
+                // Mapping
+                optoSeccionIICRecord.setIdentificador(""); // TODO IDENTIFICADOR VanillaOption de SECCIONII se deja vacío
 
                 // Agregar el TradeRecord a la lista
                 optoSeccionIICRecords.add(optoSeccionIICRecord);
