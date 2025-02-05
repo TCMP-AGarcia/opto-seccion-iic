@@ -55,7 +55,7 @@ public class OptoSeccionIICRecordTransformer implements Processor {
                 optoSeccionIICRecord.setFecha(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
                 optoSeccionIICRecord.setNuID(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeIdentifiers", "tradeId", "id")));
                 optoSeccionIICRecord.setImpbaCo(getEmbeddedDouble(cashflowDoc, List.of("CashflowMessage", "cashflowDetails", "cashflowAmount")));
-                optoSeccionIICRecord.setFeinopCo(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "tradeHeader", "tradeDate")));
+                optoSeccionIICRecord.setFeinopCo(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "tradeDate")));
                 optoSeccionIICRecord.setFeveopCo(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "exerciseStyle", "expiryDate")));
                 optoSeccionIICRecord.setCveTitC(getEmbeddedString(tradedoc, List.of("TradeMessage", "trade", "product", "underlyingInstrumentName"))); // TODO ANEXO AF
                 optoSeccionIICRecord.setPrecioEjerC(getEmbeddedDouble(tradedoc, List.of("TradeMessage", "trade", "product", "strikeRate")));
@@ -73,6 +73,7 @@ public class OptoSeccionIICRecordTransformer implements Processor {
 
                 // Agregar el TradeRecord a la lista
                 optoSeccionIICRecords.add(optoSeccionIICRecord);
+                index++;
             } catch (Exception e) {
                 log.error("Error procesando el documento: {}", tradedoc.toJson(), e);
             }
@@ -139,40 +140,4 @@ public class OptoSeccionIICRecordTransformer implements Processor {
             return 0.0; // Return default value if any error occurs
         }
     }
-
-    private Integer getEmbeddedInteger(Document doc, List<String> path) {
-        try {
-            Object value = doc.get(path.get(0)); // Obtener la primera parte del path
-            for (int i = 1; i < path.size() && value != null; i++) {
-                if (value instanceof Document) {
-                    value = ((Document) value).get(path.get(i)); // Obtener campos anidados
-                } else if (value instanceof List) {
-                    value = ((List<?>) value).get(0); // Get the first element if it's a list
-                    value = ((Document) value).get(path.get(i)); // Continue with the next part of the path
-                } else {
-                    log.warn("Path '{}' is not a Document or List, value: {}", path, value);
-                    break;
-                }
-            }
-            if (value == null) {
-                return 0; // Valor por defecto si no se encuentra valor
-            }
-            if (value instanceof Integer) {
-                return (Integer) value;
-            }
-            if (value instanceof String) {
-                try {
-                    return Integer.parseInt((String) value); // Convertir desde String
-                } catch (NumberFormatException e) {
-                    log.warn("Cannot parse String '{}' as an integer", value);
-                    return 0;
-                }
-            }
-            return 0; // Valor por defecto si no es un entero o cadena convertible
-        } catch (Exception e) {
-            log.warn("Error extracting integer from path {}: {}", path, e.getMessage());
-            return 0; // Valor por defecto si ocurre un error
-        }
-    }
-
 }
