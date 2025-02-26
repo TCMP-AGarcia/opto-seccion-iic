@@ -86,58 +86,59 @@ public class OptoSeccionIICRecordTransformer implements Processor {
     // Métodos auxiliares
     private String getEmbeddedString(Document doc, List<String> path) {
         try {
-            Object value = doc.get(path.get(0));  // Get the first part of the path
-            for (int i = 1; i < path.size() && value != null; i++) {
-                if (value instanceof Document) {
-                    value = ((Document) value).get(path.get(i)); // Get nested fields
-                } else if (value instanceof List) {
-                    value = ((List<?>) value).get(0); // Get the first element if it's a list
-                    value = ((Document) value).get(path.get(i)); // Continue with the next part of the path
-                } else {
-                    log.warn("Path '{}' is not a Document or List, value: {}", path, value);
-                    break;
-                }
-            }
+            Object value = getNestedValue(doc, path);
             if (value == null) {
-                return "random"; // If no value found, return "random"
+                return "N/A";
             }
-            if (value instanceof String) {
-                return (String) value;
-            }
-            return value.toString(); // Convert other types to String
+            return value.toString();
         } catch (Exception e) {
-            log.warn("Error extracting string from path {}: {}", path, e.getMessage());
-            return "random"; // Return default value if any error occurs
+            log.warn("Error al extraer string del path {}: {}", path, e.getMessage());
+            return "N/A";
         }
     }
 
+
     private Double getEmbeddedDouble(Document doc, List<String> path) {
         try {
-            Object value = doc.get(path.get(0));  // Get the first part of the path
-            for (int i = 1; i < path.size() && value != null; i++) {
-                if (value instanceof Document) {
-                    value = ((Document) value).get(path.get(i)); // Get nested fields
-                } else if (value instanceof List) {
-                    value = ((List<?>) value).get(0); // Get the first element if it's a list
-                    value = ((Document) value).get(path.get(i)); // Continue with the next part of the path
-                } else {
-                    log.warn("Path '{}' is not a Document or List, value: {}", path, value);
-                    break;
-                }
-            }
+            Object value = getNestedValue(doc, path);
             if (value == null) {
-                return 0.0; // Return default value if no value found
+                return 0.0;
             }
-            if (value instanceof Double) {
-                return (Double) value;
+            if (value instanceof Number) {
+                return ((Number) value).doubleValue();
             }
             if (value instanceof String) {
-                return Double.parseDouble((String) value); // Try converting from String
+                try {
+                    return Double.parseDouble((String) value);
+                } catch (NumberFormatException e) {
+                    log.warn("No se pudo convertir el valor '{}' a Double en la ruta {}", value, path, e);
+                }
             }
-            return 0.0; // Return default value if conversion fails
+            log.warn("Valor no compatible encontrado en la ruta {}: {}", path, value);
+            return 0.0;
         } catch (Exception e) {
-            log.warn("Error extracting double from path {}: {}", path, e.getMessage());
-            return 0.0; // Return default value if any error occurs
+            log.warn("Error al extraer double del path {}: {}", path, e.getMessage());
+            return 0.0;
         }
+    }
+
+    private Object getNestedValue(Document doc, List<String> path) {
+        Object value = doc;
+        for (String key : path) {
+            if (value instanceof Document) {
+                value = ((Document) value).get(key);
+            } else if (value instanceof List) {
+                if (!((List<?>) value).isEmpty() && ((List<?>) value).get(0) instanceof Document) {
+                    value = ((Document) ((List<?>) value).get(0)).get(key);
+                } else {
+                    log.warn("Valor inesperado en la ruta {}: {}", path, value);
+                    return null;
+                }
+            } else {
+                log.warn("Clave '{}' no encontrada en la ruta {}", key, path);
+                return null;
+            }
+        }
+        return value;
     }
 }

@@ -24,14 +24,13 @@ public class MongoService {
     public void printRealtimeData(Exchange exchange) {
         // Get the MongoDB database
         MongoDatabase database = mongoTemplate.getDb();
-        MongoCollection<Document> collection = database.getCollection("RealtimeMexico");
+        MongoCollection<Document> collection = database.getCollection("Realtime");
         MongoCollection<Document> collectionCF = database.getCollection("Cashflow");
 
         // Create the projection to fetch only the required fields
         Document projection = new Document(
-                "TradeMessage.trade.tradeHeader.tradeDate", 1) // FECHA
+                "TradeMessage.trade.tradeHeader.tradeDate", 1) // FECHA // FEINOP_CO
                 .append("TradeMessage.trade.tradeHeader.tradeIdentifiers.tradeId.id", 1) // NU_ID
-                .append("TradeMessage.trade.product.tradeDate",1) // FEINOP_CO
                 .append("TradeMessage.trade.product.exerciseStyle.expiryDate",1) // FEVEOP_CO
                 .append("TradeMessage.trade.product.underlyingInstrumentName", 1) // CVE_TIT_C // TODO ANEXO AF
                 .append("TradeMessage.trade.product.strikeRate", 1) // PRECIOEJER_C
